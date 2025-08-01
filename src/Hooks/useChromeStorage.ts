@@ -15,7 +15,7 @@ export const useChromeStorage = () => {
         // });
     };
 
-    const set = async (key: string, value: string) => {
+    const set =  (key: string, value: string) => {
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
@@ -23,13 +23,12 @@ export const useChromeStorage = () => {
 
     };
 
-    // const remove = async (key: string): Promise<void> => {
-    //     return new Promise((resolve) => {
-    //         chrome.storage.local.remove(key, () => {
-    //             resolve();
-    //         });
-    //     });
-    // };
+    const remove =  (key: string) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        return chrome.storage.local.remove(key);
+        
+    };
 
-    return { get, set };
+    return { get, set, remove };
 }

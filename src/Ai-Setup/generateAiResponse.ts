@@ -7,7 +7,7 @@ import {type Dispatch , type SetStateAction } from "react";
 import type {Content } from "../Components/ContentPage.tsx";
 
 
-export async function generateAiResponse({contents} : {contents : string})  {
+export async function generateAiResponse({contents, email} : {contents : string, email : string})  {
 
     console.log(contents)
 
@@ -99,8 +99,9 @@ export async function generateAiResponse({contents} : {contents : string})  {
 
     const responseText = JSON.parse(response.text.substring(response.text.indexOf("{"),response.text.lastIndexOf("}")+1));
 
+    console.log(responseText);
 
-    await storeWord (responseText as Dictionary_word_model)
+    await storeWord ( { ...responseText, email : email } as Dictionary_word_model)
 
     return JSON.parse ( responseText ) as Dictionary_word_model;
 
@@ -116,15 +117,15 @@ export async function chatBot({contents, history} : {contents : string, history 
     const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY)
 
     // For text-only input, use the gemini-pro model
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-    let resp = []
+    const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash"
+    });
 
     console.log("history : " + JSON.stringify(history, null, 2))
 
     const propmt = `You are a helpful assistant. Please provide a detailed but brief response to the following query: ${contents}`;
 
-    console.log("prompt" + propmt)
+    // console.log("prompt" + propmt)
 
     const chat = model.startChat({
 
@@ -139,17 +140,15 @@ export async function chatBot({contents, history} : {contents : string, history 
         //       parts: [{ text: "Hello! How can I assist you today?" }],
         //     },
         // ],
-        history : history,
+        history :history,
         generationConfig: {
             // temperature: 0.7,
             maxOutputTokens: 4096,
             // Don't use responseMimeType with tools
         },
+
     });
 
-    resp = await chat.getHistory()
-
-    console.log(resp)
 
         let text : any
 

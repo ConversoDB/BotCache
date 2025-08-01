@@ -20,6 +20,7 @@ You are an intelligent language assistant designed to provide specific informati
           "type": "word_phrase_idiom",
           "input": "[User's original input]",
           "meaning": "[Brief, elaborated meaning]",
+          "category": "[Nouns, Verbs, Adjectives, Adverbs, Idioms, or Phrases]",
           "pronunciation": {
             "phonetic": "[Phonetic pronunciation]",
             "audio_url": "[Link to Audio Pronunciation URL or empty string]"

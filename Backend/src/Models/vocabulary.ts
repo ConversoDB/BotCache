@@ -6,20 +6,22 @@ const vocabularySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    email : {
+        type: String,
+        required: true,
+    },
     word: {
         type: String,
         required: true,
     },
     definition: {
         type: String,
-        required: true,
         unique: true
     },
-    // partOfSpeech: {
-    //     type: String,
-    //     enum: ['noun', 'verb', 'adjective', 'adverb'],
-    //     required: true
-    // },
+    category: {
+        type: String,
+        enum: ['Nouns', 'Verbs', 'Adjectives', 'Adverbs', 'All', 'Idioms', 'Phrases'],
+    },
     exampleSentence: {
         type: String,
 
@@ -28,6 +30,9 @@ const vocabularySchema = new mongoose.Schema({
         type: String,
 
     }],
+    isFavourite: {
+        type: Boolean,
+    },
     pronunciation : {
         phonetic: {
             type: String,

@@ -1,27 +1,33 @@
 
 import './App.css'
-import { useEffect  , useRef , useState} from "react";
+import {useEffect , useRef , useState} from "react";
 import {useChromeStorage} from "./Hooks/useChromeStorage.ts";
 
 function App() {
 
     const modeValue  = useRef("")
+    const { set,get, remove } = useChromeStorage()
+
+
+    console.log(modeValue)
+
+    const [selectdValue, setSelectedValue] = useState<string>("");
+    const [email, setEmail] = useState<string>( "");
+
+    async function handleSelect(event: any) {
+        event.preventDefault()
+        set("Mode", selectdValue);
+        setSelectedValue(selectdValue)
+        setEmail(email)
+        set("email", email);
+    }
 
     useEffect ( () => {
         (async () => {
             // modeValue = await get("Mode");
-            modeValue.current =await get("Mode");
+            setSelectedValue(await get("Mode"))
         })()
     } , [] );
-
-    const [selectdValue, setSelectedValue] = useState<string>(modeValue.current);
-    const { set,get } = useChromeStorage()
-
-    async function handleSelect(event: any) {
-        event.preventDefault()
-        await set("Mode", selectdValue);
-        setSelectedValue(selectdValue)
-    }
 
 
 
@@ -69,29 +75,37 @@ function App() {
   return (
       <>
         <div >
-            <fieldset style={{display: "flex", flexDirection: "column", alignItems: "start", marginBottom: "10px"}}>
-                <legend>Choose an option:</legend>
-                <label>
-                    <input checked={selectdValue==="storage" } onChange={()=>setSelectedValue("storage")} type="radio" name="option" value="storage" />
-                    Storage
-                </label>
-                <label>
-                    <input checked={selectdValue==="chatBot" } onChange={()=>setSelectedValue("chatBot")} type="radio" name="option" value="chatBot" />
-                    ChatBot
-                </label>
-                <label>
-                    <input checked={selectdValue==="disable" } onChange={()=>setSelectedValue("disable")} type="radio" name="option" value="disable" />
-                    Disable
-                </label>
-                {/*<label>*/}
-                {/*    <input checked={selectdValue==="dual" || submit === "dual"} onChange={()=>setSelectedValue("dual")} type="radio" name="option" value="dual" />*/}
-                {/*    Dual*/}
-                {/*</label>*/}
-            </fieldset>
-            <button type="submit" onClick={(event)=>handleSelect(event)}>Submit</button>
+            <form style={{display: "flex", flexDirection: "column", alignItems: "start"}} onSubmit={handleSelect}>
+                <fieldset style={{display: "flex", flexDirection: "column", alignItems: "start", marginBottom: "10px", width : "100%"}}>
+                    <legend>Choose an option:</legend>
+                    <label>
+                        <input checked={selectdValue==="storage" } onChange={()=>setSelectedValue("storage")} type="radio" name="option" value="storage" />
+                        Storage
+                    </label>
+                    <label>
+                        <input checked={selectdValue==="chatBot" } onChange={()=>setSelectedValue("chatBot")} type="radio" name="option" value="chatBot" />
+                        ChatBot
+                    </label>
+                    <label>
+                        <input checked={selectdValue==="disable" } onChange={()=>setSelectedValue("disable")} type="radio" name="option" value="disable" />
+                        Disable
+                    </label>
+                    {/*<label>*/}
+                    {/*    <input checked={selectdValue==="dual" || submit === "dual"} onChange={()=>setSelectedValue("dual")} type="radio" name="option" value="dual" />*/}
+                    {/*    Dual*/}
+                    {/*</label>*/}
+                </fieldset>
+                <label style={{ marginBottom : "5px"}}>Email address</label>
+                <div style={{display: "flex", flexDirection: "row", alignItems: "baseline", width : "100%", gap : "5px"}}>
+                    <input required={selectdValue==="storage"} style={{width : "100%", marginBottom: "10px"}} type="email" value={email} onChange={(event)=>setEmail(event.target.value)} />
+                    <button onClick={()=>{remove("email")}} style={{backgroundColor : "red", padding : "5px"}}>Remove</button>
+                </div>
+                <button style={{backgroundColor : "green"}} type="submit" >Submit</button>
+            </form>
+
 
         </div>
-          <h4>{selectdValue}</h4>
+          {/*<h4>{selectdValue}</h4>*/}
       </>
   )
 }

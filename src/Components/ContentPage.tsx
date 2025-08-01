@@ -1,5 +1,5 @@
 // import "bootstrap/dist/css/bootstrap.css"
-import {type FormEvent , useEffect  , useState} from "react";
+import {type FormEvent  , useEffect , useState} from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {chatBot , generateAiResponse} from "../Ai-Setup/generateAiResponse.ts";
 import {TbMessageChatbotFilled} from "react-icons/tb";
@@ -17,14 +17,24 @@ export function ContentPage(){
 
 
     const [mode, setMode] = useState<string >("disable");
+    const [email, setEmail] = useState<string >("");
     const {get} = useChromeStorage()
 
     useEffect ( () => {
         (async () => {
             const storedMode = await get("Mode");
-            setMode(storedMode ?? "disable");
+            console.log("storeMode",storedMode)
+            setMode(storedMode || "disable");
+            if(storedMode === "disable" || storedMode === "chatBot" ) return
+            setEmail(await get("email"))
+
         })()
     } , [] );
+
+    // useCallback ( () => {
+    //     if(email) confirm(`your word will be stored with email : ${email}, change it in the pop-up if you don't like the email`)
+    // } , [set] );
+
 
     const [content, setContnent] = useState<string | undefined>(undefined);
 
@@ -39,7 +49,10 @@ export function ContentPage(){
         if(!content) return
 
         if(mode === "storage") {
-            generateAiResponse({ contents: content }).then(response => {
+
+            if(!email) alert("select ur email first in the pop-up")
+
+            generateAiResponse({ contents: content, email : email }).then(response => {
                 console.log(response && response?.meaning);
             });
             console.log("Storing content: ", content);
@@ -106,6 +119,7 @@ function Popup({ textcontent } : { textcontent : any } )
 
                 // historyArray.push({role : 'user' , parts : parts.push(value ? value : textcontent)})
                 // historyArray.push({role : 'model' , parts : [...response]})
+
                 setResult ( response )
                 const userMEssage : Content[] = [{ role : 'user' , parts : [{text : value }] },{ role : 'model' , parts : [{text : response }] }]
                 setHistory(prevState=>[ ...prevState, ...userMEssage])
