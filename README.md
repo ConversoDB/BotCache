@@ -58,14 +58,13 @@ BotCache/
 
 <div display="flex" align="center" class="text-center">
   <img alt="React" src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&amp;logo=React&amp;logoColor=black" class="inline-block mx-1" style="margin: 0px 2px;"/>
-  <img alt="Typescript" src="https://img.shields.io/badge/TypeScript-61DAFB.svg?style=flat&amp;logo=TypeScript&amp;logoColor=black" class="inline-block mx-1" style="margin: 0px 2px;"/>
+  <img alt="Typescript" src="https://img.shields.io/badge/TypeScript-007ACC?style=flat&amp&logo=typescript&logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
   <img alt="Express" src="https://img.shields.io/badge/Express-000000.svg?style=flat&amp;logo=Express&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
   <img alt="crxjs" src="https://img.shields.io/badge/crxjs-000000.svg?style=flat&amp;logo=crxjs&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
-  <img alt="JSON" src="https://img.shields.io/badge/JSON-000000.svg?style=flat&amp;logo=JSON&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-3492FF.svg?style=flat&amp;logo=Node.js&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
   <img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-F04D35.svg?style=flat&amp;logo=Mongoose&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
   <img alt="Nodemon" src="https://img.shields.io/badge/Nodemon-76D04B.svg?style=flat&amp;logo=Nodemon&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
-  <img alt="generative-ai" src="https://img.shields.io/badge/generative-ai-3448C5.svg?style=flat&amp;logo=generative-ai&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
+  <img alt="generative-ai" src="https://img.shields.io/badge/Google%20Gemini-8E75B2?style=flat&amp&logo=googlegemini&logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
   <img alt="npm" src="https://img.shields.io/badge/npm-CB3837.svg?style=flat&amp;logo=npm&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;"/>
 </div>
    
