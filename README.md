@@ -82,7 +82,7 @@ Prerequisites
 1. Clone the Repository
 
 ```
-git clone https://github.com/your-username/BotCache.git
+https://github.com/ConversoDB/BotCache.git
 cd BotCache
 ```
 
