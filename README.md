@@ -14,8 +14,8 @@ BotCache is a browser extension and web application that helps users store, mana
 
 
 ## 🚀 Features
- - Vocabulary Storage: Save new words, meanings, examples, and synonyms.
- - AI ChatBot: Ask questions or get explanations about words and phrases.
+ - Vocabulary Storage: Save new words, meanings, examples, and synonyms just by selecting.
+ - AI ChatBot: Ask questions or get explanations about words and phrases just by selecting it.
  - Email Integration: Associate vocabulary with your email for personalized storage.
  - Chrome Storage: Persist user preferences and data using Chrome's storage API.
  - Responsive UI: Clean, user-friendly interface with support for multiple modes.
