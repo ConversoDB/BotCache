@@ -120,3 +120,9 @@ npm run build
  - Remove Data: Use the remove button to clear your email or stored data.
    
 ## 📸 Screenshots
+
+
+https://github.com/user-attachments/assets/47f323f6-ab61-46f6-b89b-7a6a1452f5fc
+
+
+
