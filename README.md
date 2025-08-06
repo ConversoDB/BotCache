@@ -121,8 +121,22 @@ npm run build
    
 ## 📸 Screenshots
 
+<div display="flex" align="center" class="text-center">
 
-https://github.com/user-attachments/assets/47f323f6-ab61-46f6-b89b-7a6a1452f5fc
+<kbd margin-bottom = "10">
+  <img width="554" height="401" margin="15" alt="Screenshot 2025-08-03 122205" src="https://github.com/user-attachments/assets/b59e312e-96bb-441c-a422-ec0c4b4a32e0" />
+</kbd><br />
+  <br />
+  <video src="https://github.com/user-attachments/assets/47f323f6-ab61-46f6-b89b-7a6a1452f5fc"/> 
+
+   
+
+
+
+
+</div>
+
+
 
 
 
