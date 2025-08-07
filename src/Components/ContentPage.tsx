@@ -1,12 +1,13 @@
 // import "bootstrap/dist/css/bootstrap.css"
-import {type FormEvent  , useEffect , useState} from "react";
+import {type FormEvent  , type RefObject , useEffect , useRef , useState} from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {chatBot , generateAiResponse} from "../Ai-Setup/generateAiResponse.ts";
 import {TbMessageChatbotFilled} from "react-icons/tb";
 import styles from "../Style/ContentPage.module.css"
 import TextareaAutosize from "react-textarea-autosize";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import {useChromeStorage} from "../Hooks/useChromeStorage.ts";
+// import loader from "../assets/Message Icon for web.gif"
+import Lottie from "lottie-react";
 
 function getContent(){
     return window.getSelection()?.toString().trim()
@@ -106,6 +107,21 @@ function Popup({ textcontent } : { textcontent : any } )
     const [value, setValue] = useState<any>(textcontent);
     const [result, setResult] = useState<any>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [animationData, setAnimationData] = useState<any>(null);
+
+    const loaderRef : RefObject<any | null | HTMLDivElement> = useRef(null)
+
+    useEffect(() => {
+        // Convert .lottie to .json URL or use a JSON version
+        fetch('https://lottie.host/6c033d77-dddf-4f7f-b382-acfc730227cd/XINdjHRHOu.json')
+            .then(response => response.json())
+            .then(data => setAnimationData(data))
+            .catch(err => console.error('Error loading animation:', err));
+    }, []);
+
+    useEffect ( () => {
+        loaderRef.current?.scrollIntoView()
+    } , [loading] );
 
     function handleChange(event : any){
         setValue(event.target.value);
@@ -131,19 +147,14 @@ function Popup({ textcontent } : { textcontent : any } )
 
     console.log(result);
     console.log(" : " + JSON.stringify(history, null, 2) );
+
+
     
     return (
         <div style={{zIndex : "2147483630"}} className={styles.popup}>
-            {loading &&
-                    <DotLottieReact
-                        src="https://lottie.host/017dda67-503d-4bfa-951b-9cad8c8f2605/nEwkfoGZDh.lottie"
-                        loop
-                        autoplay
-                    />
-            }
 
             {history?.map(item=>(
-                <div>
+                <div style={{backgroundColor : "pink", padding : "5px", margin : "8px", borderRadius : "10px"}} >
                     {item.role === 'user' ?
                         <div className={styles.queryStyle} style={{whiteSpace : 'pre-line'}}>
                             <pre>{item.parts[0].text}</pre>
@@ -156,6 +167,18 @@ function Popup({ textcontent } : { textcontent : any } )
                 </div>
             ))}
 
+            {loading &&
+                <div style={{height : "100px", width : "100%" }} ref={loaderRef}>
+
+                    <Lottie
+                        animationData={animationData}
+                        loop
+                        autoplay
+                        style={{ maxWidth: "100px" }}
+                    />
+                </div>
+
+            }
             <div className={styles.formContainer} >
 
                 <form onSubmit={(event)=>handleClick(event)} className={styles.form}>
