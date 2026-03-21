@@ -1,6 +1,6 @@
 import "dotenv/config";
-import express , {NextFunction, Response, Request} from "express"
 import env from "./util/validateEnv";
+import express , {NextFunction, Response, Request} from "express"
 import session from "express-session";
 import wordRouter from "./routes/vocabulary.router";
 import cors from "cors";
