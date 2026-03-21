@@ -21,9 +21,15 @@ interface vocabularyType {
 
 export const postVocabulary : RequestHandler<unknown,unknown,vocabularyType,unknown> = async (req, res, next) => {
 
-    const { meaning, input, example, synonyms, pronunciation, type, email, category, topic, information  } = req.body;
 
-    console.log(req.body);
+    let parsed = req.body
+
+    if(req.headers['content-type'] == "text/plain"){
+        parsed = JSON.parse(req.body as string)
+    }
+
+    const { meaning, input, example, synonyms, pronunciation, type, email, category, topic, information  } = parsed;
+
 
     try{
 

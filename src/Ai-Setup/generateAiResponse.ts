@@ -99,9 +99,13 @@ export async function generateAiResponse({contents, email} : {contents : string,
 
     const responseText = JSON.parse(response.text.substring(response.text.indexOf("{"),response.text.lastIndexOf("}")+1));
 
+    console.log("responseText1=======")
     console.log(responseText);
+    console.log("responseText2=======")
 
     await storeWord ( { ...responseText, email : email } as Dictionary_word_model)
+
+    console.log("test==========")
 
     return JSON.parse ( responseText ) as Dictionary_word_model;
 

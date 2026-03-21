@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express , {NextFunction, Response, Request} from "express"
+import env from "./util/validateEnv";
+import session from "express-session";
 import wordRouter from "./routes/vocabulary.router";
 import cors from "cors";
 
@@ -7,6 +9,18 @@ const app = express();
 
 app.use(cors())
 app.use(express.json());
+app.use(express.text());
+
+app.use(
+    session({
+        secret: env.SECRET_SESSION_KEY,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: false
+        }
+    })
+);
 
 
 // app.get("/", (req, res) => {
