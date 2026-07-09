@@ -103,7 +103,7 @@ export async function generateAiResponse({contents, email} : {contents : string,
 
     await storeWord ( { ...responseText, email : email } as Dictionary_word_model)
 
-    return JSON.parse ( responseText ) as Dictionary_word_model;
+    return responseText as Dictionary_word_model;
 
 }
 
@@ -144,7 +144,6 @@ export async function chatBot({contents, history} : {contents : string, history 
         generationConfig: {
             // temperature: 0.7,
             maxOutputTokens: 4096,
-            // Don't use responseMimeType with tools
         },
 
     });
@@ -154,18 +153,17 @@ export async function chatBot({contents, history} : {contents : string, history 
 
 
         try {
-            // Send the system prompt only once at the beginning
+            //  the system prompt only once at the beginning
             // await chat.sendMessage(SYSTEM_PROMPT);
             const result = await chat.sendMessage(propmt);
             const response =  result.response;
             text = response.text();
             console.log("Bot:", text);
             // history.push({role : "model", parts : [text]})
-            return text
+            // return text
 
         } catch (error) {
             console.error("Error communicating with Gemini:", error);
-            // Optionally, log the full chat history for debugging
             // console.log("Current Chat History:", chat.history);
         }
     // }

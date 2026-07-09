@@ -1,6 +1,12 @@
 import {RequestHandler} from "express";
-import vocabularyModel from "../Models/vocabulary";
+import vocabularyModel, {CATEGORY_VALUES} from "../Models/vocabulary";
 import mongoose from "mongoose";
+
+function normalizeCategory(category?: string): typeof CATEGORY_VALUES[number] {
+    const first = category?.split(",")[0]?.trim();
+    const match = CATEGORY_VALUES.find((value : any) => value.toLowerCase() === first?.toLowerCase());
+    return match ?? "All";
+}
 
 interface vocabularyType {
     type?: string;
@@ -20,6 +26,7 @@ interface vocabularyType {
 }
 
 export const postVocabulary : RequestHandler<unknown,unknown,vocabularyType,unknown> = async (req, res, next) => {
+
 
     const { meaning, input, example, synonyms, pronunciation, type, email, category, topic, information  } = req.body;
 
@@ -45,7 +52,7 @@ export const postVocabulary : RequestHandler<unknown,unknown,vocabularyType,unkn
                     phonetic: pronunciation?.phonetic || '', // Default to empty string if not provided
                     audio_url: pronunciation?.audio_url || null // Default to null if not provided
                 } ,
-                category : category || 'all',
+                category : normalizeCategory(category),
                 isFavourite : false
 
             })
@@ -64,10 +71,6 @@ export const postVocabulary : RequestHandler<unknown,unknown,vocabularyType,unkn
 
         console.log("newWord", newWord);
 
-        req.session.email = email; // Store the email in the session
-
-        // Here you would typically save the word to a database
-        // For demonstration, we will just return the word
         res.status(201).json(newWord);
 
     }catch (error: unknown){

@@ -1,6 +1,13 @@
 // import "bootstrap/dist/css/bootstrap.css"
-import {type FormEvent  , type RefObject , useEffect , useRef , useState} from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {
+    type Dispatch ,
+    type FormEvent ,
+    type RefObject ,
+    type SetStateAction ,
+    useEffect ,
+    useRef ,
+    useState
+} from "react";
 import {chatBot , generateAiResponse} from "../Ai-Setup/generateAiResponse.ts";
 import {TbMessageChatbotFilled} from "react-icons/tb";
 import styles from "../Style/ContentPage.module.css"
@@ -8,6 +15,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import {useChromeStorage} from "../Hooks/useChromeStorage.ts";
 // import loader from "../assets/Message Icon for web.gif"
 import Lottie from "lottie-react";
+import {StateComp} from "./StateComp.tsx";
+
 
 function getContent(){
     return window.getSelection()?.toString().trim()
@@ -55,7 +64,9 @@ export function ContentPage(){
 
             generateAiResponse({ contents: content, email : email }).then(response => {
                 console.log(response && response?.meaning);
-            });
+            }).catch(error => {
+                console.error("Failed to store word: ", error);
+            })
             console.log("Storing content: ", content);
         }
 
@@ -80,7 +91,7 @@ export function ContentPage(){
                             onClick={ () => togglePopup () }>
                         <TbMessageChatbotFilled size={ 22 }/>
                     </button>
-                    { popupVisible && <Popup textcontent={ content }/> /* Render the Popup component if popupVisible is true */
+                    { popupVisible && <Popup setContnent={setContnent} textcontent={ content }/> /* Render the Popup component if popupVisible is true */
 
                     }
                     {/*<button onClick={()=>getMode()}>getMode</button>*/}
@@ -95,18 +106,19 @@ export function ContentPage(){
 
 export type Content = { role: "user" | "model", parts: any[] };
 
-function Popup({ textcontent } : { textcontent : any } )
+function Popup({ textcontent, setContnent } : { textcontent : any, setContnent : Dispatch<SetStateAction<any>> } )
 {
 
     const [history, setHistory] = useState<Content[]>([])
 
     // const historyArray : Content[] = []
 
-    console.log("textcontent : " +textcontent)
+    // console.log("textcontent : " +textcontent)
     
     const [value, setValue] = useState<any>(textcontent);
-    const [result, setResult] = useState<any>();
+    // const [result, setResult] = useState<any>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<any>(null)
     const [animationData, setAnimationData] = useState<any>(null);
 
     const loaderRef : RefObject<any | null | HTMLDivElement> = useRef(null)
@@ -120,38 +132,45 @@ function Popup({ textcontent } : { textcontent : any } )
     }, []);
 
     useEffect ( () => {
+        if(textcontent) setValue(textcontent)
         loaderRef.current?.scrollIntoView()
-    } , [loading] );
+    } , [loading, textcontent] );
 
     function handleChange(event : any){
-        setValue(event.target.value);
+        if(textcontent) setValue(textcontent)
+        else setValue(event.target.value);
     }
 
     async function handleClick(event : FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setLoading(true)
         chatBot( {contents : value , history: history as Content[]} )
-            .then(response => {
+            .then(() => {
 
-                // historyArray.push({role : 'user' , parts : parts.push(value ? value : textcontent)})
-                // historyArray.push({role : 'model' , parts : [...response]})
 
-                setResult ( response )
-                const userMEssage : Content[] = [{ role : 'user' , parts : [{text : value }] },{ role : 'model' , parts : [{text : response }] }]
-                setHistory(prevState=>[ ...prevState, ...userMEssage])
+                // setResult ( response )
+                // const userMEssage : Content[] = [{ role : 'user' , parts : [{text : value }] },{ role : 'model' , parts : [{text : response }] }]
+                setHistory(prevState=>[ ...prevState])
                 setLoading(false)
                 setValue("")
+                setContnent("")
             })
-            .catch(error => console.error(error));
+            .catch((error ) => {
+                console.error ( error )
+                if(error.text().contains("503")) setError("Server Error")
+                else setError(error.text)
+            });
     }
 
-    console.log(result);
+    // console.log(result);
     console.log(" : " + JSON.stringify(history, null, 2) );
+    console.log(history)
 
 
     
     return (
-        <div style={{zIndex : "2147483630"}} className={styles.popup}>
+        <StateComp error={error} >
+        <div style={{zIndex : "2147483646"}} className={styles.popup}>
 
             {history?.map(item=>(
                 <div style={{backgroundColor : "pink", padding : "5px", margin : "8px", borderRadius : "10px"}} >
@@ -184,7 +203,7 @@ function Popup({ textcontent } : { textcontent : any } )
                 <form onSubmit={(event)=>handleClick(event)} className={styles.form}>
 
                     <div className={styles.formGroup}>
-                        <TextareaAutosize onChange={(event)=>{handleChange(event)}} value={value} className={styles.textarea} placeholder="type here..."/>
+                        <TextareaAutosize onChange={(event)=>{handleChange(event)}} value={ value} className={styles.textarea} placeholder="type here..."/>
                         {/*<Form.Control  className="pe-4 p-2 overflow-visible text-wrap" as="textarea"  />*/}
                         <button className={styles.popup_button} type="submit">
                             Ask AI
@@ -194,5 +213,6 @@ function Popup({ textcontent } : { textcontent : any } )
                 </form>
             </div>
         </div>
+        </StateComp>
     );
 }

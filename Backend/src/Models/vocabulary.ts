@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import {InferSchemaType} from "mongoose";
 
+export const CATEGORY_VALUES = ['Nouns', 'Verbs', 'Adjectives', 'Adverbs', 'All', 'Idioms', 'Phrases'] as const;
+
 const vocabularySchema = new mongoose.Schema({
     type : {
         type: String,
@@ -16,11 +18,10 @@ const vocabularySchema = new mongoose.Schema({
     },
     definition: {
         type: String,
-        unique: true
     },
     category: {
         type: String,
-        enum: ['Nouns', 'Verbs', 'Adjectives', 'Adverbs', 'All', 'Idioms', 'Phrases'],
+        enum: CATEGORY_VALUES,
     },
     exampleSentence: {
         type: String,
