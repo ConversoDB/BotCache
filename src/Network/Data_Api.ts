@@ -1,7 +1,7 @@
 import type {Dictionary_word_model} from "../Models/dictionary_word_model.ts";
 
-const API_ROUTE = "http://localhost:5000";
-// const API_ROUTE = "https://botcache.onrender.com";
+// const API_ROUTE = "http://localhost:5000";
+const API_ROUTE = "https://botcache.onrender.com";
 
 export async function storeWord(word : Dictionary_word_model){
 
