@@ -88,7 +88,7 @@ export async function generateAiResponse({contents, email} : {contents : string,
 
     // Make the request
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-flash-lite",
         contents: contnetns,
         config
         // groundingTools: [groundingTool],
@@ -118,7 +118,7 @@ export async function chatBot({contents, history} : {contents : string, history 
 
     // For text-only input, use the gemini-pro model
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash"
+        model: "gemini-2.5-flash-lite"
     });
 
     console.log("history : " + JSON.stringify(history, null, 2))
