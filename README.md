@@ -113,6 +113,23 @@ npm run build
 
 6. Go to manage extension and set to development mode and upload the dist folder
 
+## 📦 Releasing
+
+Every push of a version tag (e.g. `v1.0.1`) triggers a GitHub Actions workflow (`.github/workflows/release.yml`) that builds the extension and publishes a GitHub Release with the packaged `dist/` folder attached as a zip.
+
+1. Bump the version in `manifest.json` (and `package.json` if desired)
+2. Tag and push:
+
+```
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+3. The workflow builds the extension and attaches `botcache-v1.0.1.zip` to the new release on the [Releases page](https://github.com/anwesha2002/BotCache/releases)
+4. Download and unzip the asset, then load it as an unpacked extension via `chrome://extensions`
+
+> Note: the workflow requires a repo secret named `VITE_GOOGLE_API_KEY` (Settings → Secrets and variables → Actions) set to the same Google Gemini API key used locally in `.env.local`.
+
 ## 🧩Usage
  - Select Mode: Choose between Storage, ChatBot, or Disable from the main interface
  - Add Vocabulary: select a word or sentence, its meaning, example, and (optionally) synonyms and pronunciation will be stored automatically.
