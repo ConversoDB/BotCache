@@ -1,7 +1,7 @@
 {
     "manifest_version" : 3,
     "name": "Word Store vocabulary",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A Chrome extension to manage and practice vocabulary using Word Store.",
     "icons": {
         "16": "public/vite.svg"
